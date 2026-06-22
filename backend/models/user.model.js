@@ -43,17 +43,14 @@ const UserSchema = new mongoose.Schema({
     isBanned: { type: Boolean, default: false },
     lastSeenAt: Date,
 
-    privacySettings: {
-        profileVisibility: { type: String, enum: ["Public", "Connections", "Private"], default: "Public" },
-    },
-
-
 
     followersCount: { type: Number, default: 0 },
     followingCount: { type: Number, default: 0 },
     connectionsCount: { type: Number, default: 0 },
     profileViewsCount: { type: Number, default: 0 },
     searchAppearancesCount: { type: Number, default: 0 },
+
+    profileViewers: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
 
     educations : [{ type: mongoose.Schema.Types.ObjectId, ref: "Education" }],
     experiences : [{ type: mongoose.Schema.Types.ObjectId, ref: "Experience" }],
@@ -62,7 +59,6 @@ const UserSchema = new mongoose.Schema({
     certificates : [{ type: mongoose.Schema.Types.ObjectId, ref: "Certificate" }],
     awards : [{ type: mongoose.Schema.Types.ObjectId, ref: "Award" }],
     languages : [{ type: mongoose.Schema.Types.ObjectId, ref: "Language" }],
-
     posts : [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
 
 
