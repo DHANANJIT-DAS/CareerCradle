@@ -15,7 +15,18 @@ const EducationSchema = new mongoose.Schema({
     grade: String,
     description: { type: String, maxlength: 1000 },
     skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
-    mediaUrls: [String],
+    media: [{
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image", "video", "document"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+        title: String,
+        description: String,
+    }],
 
 
 },{ timestamps: true });
@@ -42,16 +53,27 @@ const ExperienceSchema = new mongoose.Schema({
     duration: Number,
     description: { type: String, maxlength: 2000 },
     skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
-    mediaUrls: [String],
+    media: [{
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image", "video", "document"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+        title: String,
+        description: String,
+    }],
 
 },{ timestamps: true });
 
 
 
-const UserSkillSchema = new mongoose.Schema({
+const SkillSchema = new mongoose.Schema({
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    skill: String,
+    skillName: String,
     endorsementsCount: { type: Number, default: 0 },
     reference: {type: mongoose.Schema.Types.ObjectId}
 
@@ -70,6 +92,16 @@ const CertificationSchema = new mongoose.Schema({
     expirationDate: Date,
     doesExpire: { type: Boolean, default: true },
     certificateUrl: String,
+    certificateMediaInfo: {
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+    },
     description : { type: String, maxlength: 1000 },
     skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
 
@@ -91,7 +123,18 @@ const ProjectSchema = new mongoose.Schema({
     projectUrl: String,
     contributors: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
-    mediaUrls: [String],
+    media: [{
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image", "video", "document"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+        title: String,
+        description: String,
+    }],
     
 
 },{ timestamps: true });
@@ -108,7 +151,18 @@ const AwardSchema = new mongoose.Schema({
     issuerLogo: String,
     issueDate: Date,
     description: { type: String, maxlength: 2000 },
-    attachedUrl : [String],
+    media: [{
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image", "video", "document"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+        title: String,
+        description: String,
+    }],
 
 },{ timestamps: true });
 
@@ -127,10 +181,10 @@ const LanguageSchema = new mongoose.Schema({
 
 const Education = mongoose.model("Education",EducationSchema);
 const Experience = mongoose.model("Experience",ExperienceSchema);
-const Skill = mongoose.model("Skill",UserSkillSchema);
+const Skill = mongoose.model("Skill",SkillSchema);
 const Certificate = mongoose.model("Certificate",CertificationSchema);
 const Project = mongoose.model("Project",ProjectSchema);
 const Award = mongoose.model("Award",AwardSchema);
 const Language = mongoose.model("Language",LanguageSchema);
 
-export {Education,Experience,Skill,Certificate,Project,Award,Language};
+export { Education, Experience, Skill, Certificate, Project, Award, Language };

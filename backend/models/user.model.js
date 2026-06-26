@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { SALT_ROUNDS } from "../constants.js";
+import {SALT_ROUNDS} from "../constants.js";
 import jwt from "jsonwebtoken";
 
 
@@ -13,18 +13,39 @@ const UserSchema = new mongoose.Schema({
     emailVerificationToken: String,
     refreshToken: String,
     refreshTokenExpires: Date,
-    profileUrl : {type: String, unique: true},
+    // profileUrl : {type: String, unique: true},
 
 
     firstName: { type: String, required: true, trim: true },
     lastName: { type: String, required: true, trim: true },
     username: {type: String, unique: true},
+    birthday: Date,
 
     role : {type: String,enum:["professional", "student"]},
     
     headline: { type: String, maxlength: 220 },
     profilePictureUrl: String,
+    profilePictureMediaInfo: {
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image"] },
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+    },
     bannerImageUrl: String,
+    bannerImageMediaInfo: {
+        url: String,
+        publicId: String,
+        mediaType: { type: String, enum: ["image"]},
+        fileName: String,
+        thumbnailUrl: String,
+        duration: Number,
+        mimeType: String,
+        size: String,
+    },
     about: { type: String, maxlength: 2600 },
 
 
@@ -36,12 +57,20 @@ const UserSchema = new mongoose.Schema({
 
     phone: String,
     website: String,
-    birthday: Date,
+    linkedinUrl: String,
+    facebookUrl: String,
+    instagramUrl: String,
+    twitterUrl: String,
 
     isActive: { type: Boolean, default: true },
     isDeactivated: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
     lastSeenAt: Date,
+
+    privacySettings: {
+        profileVisibility: { type: String, enum: ["Public", "Connections", "Private"], default: "Public" },
+    },
+
 
 
     followersCount: { type: Number, default: 0 },
@@ -50,8 +79,6 @@ const UserSchema = new mongoose.Schema({
     profileViewsCount: { type: Number, default: 0 },
     searchAppearancesCount: { type: Number, default: 0 },
 
-    profileViewers: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
-
     educations : [{ type: mongoose.Schema.Types.ObjectId, ref: "Education" }],
     experiences : [{ type: mongoose.Schema.Types.ObjectId, ref: "Experience" }],
     projects : [{ type: mongoose.Schema.Types.ObjectId, ref: "Project" }],
@@ -59,6 +86,7 @@ const UserSchema = new mongoose.Schema({
     certificates : [{ type: mongoose.Schema.Types.ObjectId, ref: "Certificate" }],
     awards : [{ type: mongoose.Schema.Types.ObjectId, ref: "Award" }],
     languages : [{ type: mongoose.Schema.Types.ObjectId, ref: "Language" }],
+
     posts : [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
 
 
@@ -99,7 +127,6 @@ UserSchema.pre("save",async function(){
     }
 
     this.username = finalUsername;
-    this.profileUrl = `CareerCradle.com/u/${finalUsername}`;
 });
 
 
