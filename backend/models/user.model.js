@@ -18,10 +18,8 @@ const UserSchema = new mongoose.Schema({
 
     firstName: { type: String, required: true, trim: true },
     lastName: { type: String, required: true, trim: true },
-    username: {type: String, unique: true},
+    username: { type: String, unique: true},
     birthday: Date,
-
-    role : {type: String,enum:["professional", "student"]},
     
     headline: { type: String, maxlength: 220 },
     profilePictureUrl: String,
@@ -67,10 +65,6 @@ const UserSchema = new mongoose.Schema({
     isBanned: { type: Boolean, default: false },
     lastSeenAt: Date,
 
-    privacySettings: {
-        profileVisibility: { type: String, enum: ["Public", "Connections", "Private"], default: "Public" },
-    },
-
 
 
     followersCount: { type: Number, default: 0 },
@@ -95,8 +89,8 @@ const UserSchema = new mongoose.Schema({
 },
 { 
     timestamps: true,
-    toJSON:{virtuals: true},
-    toObject:{virtuals: true},
+    toJSON:{ virtuals: true},
+    toObject:{ virtuals: true},
 });
 
 

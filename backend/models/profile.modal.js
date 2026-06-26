@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const EducationSchema = new mongoose.Schema({
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    institute:{type: mongoose.Schema.Types.ObjectId},
+    institute:{ type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
     instituteName: String, 
     instituteLogoUrl : String,
     instituteLocation: String,
@@ -14,7 +14,7 @@ const EducationSchema = new mongoose.Schema({
     isCurrentlyStudy: { type: Boolean, default: false },
     grade: String,
     description: { type: String, maxlength: 1000 },
-    skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
+    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
     media: [{
         url: String,
         publicId: String,
@@ -36,7 +36,7 @@ const EducationSchema = new mongoose.Schema({
 const ExperienceSchema = new mongoose.Schema({
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    organization: { type: mongoose.Schema.Types.ObjectId},
+    organization: { type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
     title: { type: String, required: true },
     employmentType: {
         type: String,
@@ -52,7 +52,7 @@ const ExperienceSchema = new mongoose.Schema({
     endDate: Date,
     duration: Number,
     description: { type: String, maxlength: 2000 },
-    skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
+    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
     media: [{
         url: String,
         publicId: String,
@@ -75,7 +75,8 @@ const SkillSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     skillName: String,
     endorsementsCount: { type: Number, default: 0 },
-    reference: {type: mongoose.Schema.Types.ObjectId}
+    reference: { type: mongoose.Schema.Types.ObjectId,  refPath: "targetModel" },
+    targetModel: { type: String, enum: ["Education", "Experience", "Certificate", "Project"] }
 
 },{ timestamps: true });
 
@@ -85,7 +86,7 @@ const CertificationSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true },
     certificateId: String,
-    issuingOrganization: { type: mongoose.Schema.Types.ObjectId},
+    issuingOrganization: { type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
     issuingOrganisationName: String,
     issuingOrganizationLogo: String,
     issueDate: Date,
@@ -103,7 +104,7 @@ const CertificationSchema = new mongoose.Schema({
         size: String,
     },
     description : { type: String, maxlength: 1000 },
-    skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
+    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
 
 },{ timestamps: true });
 
@@ -112,7 +113,7 @@ const CertificationSchema = new mongoose.Schema({
 const ProjectSchema = new mongoose.Schema({
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    organization:{type: mongoose.Schema.Types.ObjectId},
+    organization:{ type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
     organizationName: String,
     organizationLogo: String,
     name: { type: String, required: true },
@@ -122,7 +123,7 @@ const ProjectSchema = new mongoose.Schema({
     isOngoing: { type: Boolean, default: false },
     projectUrl: String,
     contributors: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    skills: [{type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
+    skills: [{ type: mongoose.Schema.Types.ObjectId, ref: "Skill"}],
     media: [{
         url: String,
         publicId: String,
@@ -146,7 +147,7 @@ const AwardSchema = new mongoose.Schema({
 
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     title: { type: String, required: true },
-    issuer: {type: mongoose.Schema.Types.ObjectId},
+    issuer: { type: mongoose.Schema.Types.ObjectId, ref: "Organization"},
     issuerName: String,
     issuerLogo: String,
     issueDate: Date,
